@@ -1,0 +1,16 @@
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email Address</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for contact in contacts %}
+            <tr>
+                <td><a href="{% url "view_contact" contact.id %}">{{contact.name}}</a></td>
+                <td>{{contact.email}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -13,22 +13,7 @@
                     <h5>You don't have any contacts yet</h5>
                 </div>
             {% else %}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email Address</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for contact in contacts %}
-                            <tr>
-                                <td><a href="{% url "view_contact" contact.id %}">{{contact.name}}</a></td>
-                                <td>{{contact.email}}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                {% include "contacts/table.html" %}
             {% endif %}
 
             <a class="button" href="{% url "create_contact" %}">Add Contact</a>

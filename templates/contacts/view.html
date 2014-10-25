@@ -18,6 +18,17 @@
                 {% endfor %}
             </table>
 
+
+            <div>
+                {% if contact.groups.count == 0 %}
+                    <div class="panel callout radius">
+                        <h5>This contact isn't a member of any groups</h5>
+                    </div>
+                {% else %}
+                    {% include "contacts/groups/table.html" with groups=contact.groups.all %}
+                {% endif %}
+            </div>
+
             <a class="button" href="{% url "edit_contact" contact.id %}">Edit</a>
             <a class="button warning" href="{% url "delete_contact" contact.id %}">Delete</a>
         </div>

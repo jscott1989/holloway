@@ -13,24 +13,7 @@
                     <h5>You don't have any groups yet</h5>
                 </div>
             {% else %}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for group in groups %}
-                            <tr>
-                                <td><a href="{% url "view_group" group.id %}">{{group.name}}</a></td>
-                                <td>{{group.description}}</td>
-                                <td>0 contacts</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                {% include "contacts/groups/table.html" %}
             {% endif %}
 
             <a class="button" href="{% url "create_group" %}">Add Group</a>

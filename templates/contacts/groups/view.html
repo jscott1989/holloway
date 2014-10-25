@@ -12,8 +12,14 @@
             <h2>{{group.name}}</h2>
             <p>{{group.description}}</p>
 
-            <div class="panel callout radius">
-                <h5>This group doesn't have any contacts yet</h5>
+            <div>
+                {% if group.contacts.count == 0 %}
+                    <div class="panel callout radius">
+                        <h5>This group doesn't have any contacts yet</h5>
+                    </div>
+                {% else %}
+                    {% include "contacts/table.html" with contacts=group.contacts %}
+                {% endif %}
             </div>
 
             <a class="button" href="{% url "edit_group" group.id %}">Edit</a>
