@@ -10,3 +10,5 @@ pip install -r requirements.txt;
 
 echo "Installing bower dependencies";
 bower install;
+
+python manage.py migrate;

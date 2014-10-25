@@ -1,0 +1,47 @@
+{% load staticfiles %}
+{% load i18n %}
+{% load compress %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Holloway</title>
+    <link rel="stylesheet" type="text/css" href="{% static "css/holloway.css" %}">
+    {% compress css %}
+        <link rel="stylesheet" type="text/x-scss" href="{% static "sass/holloway.scss" %}" />
+    {% endcompress %}
+    <script src="{% static "modernizr/modernizr.js" %}"></script>
+</head>
+<body>
+    {% block navbar %}
+        <nav class="top-bar" data-topbar>
+            <ul class="title-area">
+                <li class="name">
+                    <h1><a href="{% url "index" %}">Holloway</a></h1>
+                </li>
+                <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
+            </ul>
+
+            <section class="top-bar-section">
+            </section>
+        </nav>
+    {% endblock %}
+<div class="container" id="content">
+    {% if messages %}
+        {% for message in messages %}
+            <div data-alert class="alert-box {% if message.tags %}alert-{{message.tags}}{% endif %}">
+                {{message}}
+                <a href="#" class="close">&times;</a>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+{% block content %}
+{% endblock %}
+<script src="{% static "jquery/dist/jquery.min.js" %}"></script>
+<script src="{% static "fastclick/lib/fastclick.js" %}"></script>
+<script src="{% static "foundation/js/foundation.min.js" %}"></script>
+{% block scripts %}
+{% endblock %}
+</body>
+</html>
