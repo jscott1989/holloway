@@ -1,0 +1,14 @@
+{
+    "name": "Holloway",
+    "version": "0.0.1",
+
+    "dependencies": {
+        "jquery": "2.1.0",
+        "underscore": "1.5.2",
+
+        "html5shiv": "3.7.0",
+        "respond": "1.3.0",
+        "knockoutjs": "2.3.0",
+        "foundation": "zurb/bower-foundation"
+    }
+}
