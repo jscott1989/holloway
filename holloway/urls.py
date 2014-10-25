@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
-from django.contrib import admin
 
 urlpatterns = patterns('',
     url(r'^$', 'holloway.views.index', name='index'),
+    url(r'^contacts/', include('contacts.urls')),
+    url(r'^emails/', include('emails.urls')),
 )
