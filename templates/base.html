@@ -6,7 +6,6 @@
 <html>
 <head>
     <title>Holloway</title>
-    <link rel="stylesheet" type="text/css" href="{% static "css/holloway.css" %}">
     {% compress css %}
         <link rel="stylesheet" type="text/x-scss" href="{% static "sass/holloway.scss" %}" />
     {% endcompress %}
@@ -38,10 +37,12 @@
 </div>
 {% block content %}
 {% endblock %}
-<script src="{% static "jquery/dist/jquery.min.js" %}"></script>
-<script src="{% static "fastclick/lib/fastclick.js" %}"></script>
-<script src="{% static "foundation/js/foundation.min.js" %}"></script>
-{% block scripts %}
-{% endblock %}
+{% compress js %}
+    <script type="text/javascript" src="{% static "jquery/dist/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "fastclick/lib/fastclick.js" %}"></script>
+    <script type="text/javascript" src="{% static "foundation/js/foundation.min.js" %}"></script>
+    {% block scripts %}
+    {% endblock %}
+{% endcompress %}
 </body>
 </html>
