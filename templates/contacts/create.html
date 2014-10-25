@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="small-12 columns">
+            <ul class="breadcrumbs">
+                <li><a href="{% url "contacts" %}">Contacts</a></li>
+                <li class="current">Add Contact</li>
+            </ul>
+
+            <form action="{% url "create_contact" %}" method="POST">
+                {% csrf_token %}
+                {% include "contacts/_form.html" %}
+                <button type="submit">Add</button>
+                <a href="{% url "contacts" %}" class="button warning">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

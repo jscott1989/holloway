@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="small-12 columns">
+            <ul class="breadcrumbs">
+                <li><a href="{% url "contacts" %}">Contacts</a></li>
+                <li class="current">{{contact.name}}</li>
+            </ul>
+
+            <table>
+                {% for a,b in contact.all_fields %}
+                    <tr>
+                        <th>{{a}}</th>
+                        <td>{{b}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            <a class="button" href="{% url "edit_contact" contact.id %}">Edit</a>
+            <a class="button warning" href="{% url "delete_contact" contact.id %}">Delete</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

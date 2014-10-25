@@ -4,20 +4,28 @@
 <div class="container">
     <div class="row">
         <div class="small-12 columns">
+            <ul class="breadcrumbs">
+                <li class="current">Contacts</li>
+            </ul>
+
             <table>
             <thead>
                 <tr>
-                    <th>First Name</th>
-                    <th>Surname</th>
+                    <th>Name</th>
                     <th>Email Address</th>
-                    <th colspan="2"></th>
                 </tr>
             </thead>
             <tbody>
+                {% for contact in contacts %}
+                    <tr>
+                        <td><a href="{% url "view_contact" contact.id %}">{{contact.first_name}} {{contact.last_name}}</a></td>
+                        <td>{{contact.email}}</td>
+                    </tr>
+                {% endfor %}
             </tbody>
             </table>
 
-            <a class="button" href="#">Add Contact</a>
+            <a class="button" href="{% url "create_contact" %}">Add Contact</a>
         </div>
     </div>
 </div>
