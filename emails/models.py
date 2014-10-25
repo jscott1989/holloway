@@ -1,8 +1,8 @@
-# from django import db
+from django.db import models
+import jsonfield
 
-# class EmailTemplate(db.Model):
-#
-# class Email(db.Model):
-#
-# class ScheduledEmail(db.Model):
-#
+class EmailTemplate(models.Model):
+    subject = models.CharField(max_length=100)
+    html = models.TextField()
+    text = models.TextField()
+    required_fields = jsonfield.JSONField()

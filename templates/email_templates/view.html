@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="small-12 columns">
+            <ul class="breadcrumbs">
+                <li><a href="{% url "email_templates" %}">Email Templates</a></li>
+                <li class="current">{{email_template.subject}}</li>
+            </ul>
+
+            <h2>Subject: {{email_template.subject}}</h2>
+
+            <h3>HTML</h3>
+            <p>{{email_template.html}}</p>
+
+            <h3>Text</h3>
+            <p>{{email_template.text}}</p>
+
+            <h3>Required Fields</h3>
+            <ul>
+                {% if contact.groups.count == 0 %}
+                    <div class="panel callout radius">
+                        <h5>This email template has no required fields</h5>
+                    </div>
+                {% else %}
+                    {% for required_field in email_template.required_fields %}
+                        <li>{{required_field}}</li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+
+            <a class="button" href="{% url "edit_email_template" email_template.id %}">Edit</a>
+            <a class="button warning" href="{% url "delete_email_template" email_template.id %}">Delete</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

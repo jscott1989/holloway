@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="small-12 columns">
+            <ul class="breadcrumbs">
+                <li><a href="{% url "email_templates" %}">Email Templates</a></li>
+                <li class="current">Add Email Template</li>
+            </ul>
+
+            <form action="{% url "create_email_template" %}" method="POST">
+                {% csrf_token %}
+                {% include "email_templates/_form.html" %}
+                <button type="submit">Add</button>
+                <a href="{% url "email_templates" %}" class="button warning">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

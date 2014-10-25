@@ -1,0 +1,16 @@
+<table>
+    <thead>
+        <tr>
+            <th>Subject</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for email_template in email_templates %}
+            <tr>
+                <td><a href="{% url "view_email_template" email_template.id %}">{{email_template.subject}}</a></td>
+                <td>{{email_template.required_fields|length}} required fields</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

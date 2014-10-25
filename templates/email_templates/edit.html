@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="small-12 columns">
+            <ul class="breadcrumbs">
+                <li><a href="{% url "email_templates" %}">Email Templates</a></li>
+                <li><a href="{% url "view_email_template" email_template.id %}">{{email_template.subject}}</a></li>
+                <li class="current">Edit</li>
+            </ul>
+
+            <form action="{% url "edit_email_template" email_template.id %}" method="POST">
+                {% csrf_token %}
+                {% include "email_templates/_form.html" %}
+                <button type="submit">Update</button>
+                <a href="{% url "view_email_template" email_template.id %}" class="button warning">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -14,6 +14,7 @@ class Contact(models.Model):
     @property
     def all_fields(self):
         """ A list of tuples - including the default data and custom fields """
+        yield ("Name", self.name)
         yield ("First Name", self.first_name)
         yield ("Last Name", self.last_name)
         yield ("Email", self.email)

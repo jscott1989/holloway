@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="small-12 columns">
+            <ul class="breadcrumbs">
+                <li class="current">Email Templates</li>
+            </ul>
+
+            {% if email_templates.count == 0 %}
+                <div class="panel callout radius">
+                    <h5>You don't have any email templates yet</h5>
+                </div>
+            {% else %}
+                {% include "email_templates/table.html" %}
+            {% endif %}
+
+            <a class="button" href="{% url "create_email_template" %}">Add Email Template</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
