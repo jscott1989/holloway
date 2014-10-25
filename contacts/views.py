@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from models import Contact
+from models import Contact, Group
 from django.contrib import messages
-from forms import ContactForm
+from forms import ContactForm, GroupForm
 
 def index(request):
     """ Contacts list. """
@@ -38,17 +38,54 @@ def edit_contact(request, pk):
 
 def delete_contact(request, pk):
     """ Delete a contact. """
-    # TODO: If we use this "confirm" functionality again,
-    # abstract it into a decorator
     contact = get_object_or_404(Contact, pk=pk)
     if request.method == "POST":
         # If we post then we will delete the user
         contact.delete()
         messages.success(request, "%s deleted" % contact.name)
         return redirect("contacts")
-    return render(request, "contacts/confirm_delete_contact.html", {"contact": contact})
+    return render(request, "contacts/confirm_delete.html", {"contact": contact})
 
 
 def groups(request):
-    """ Groups list. """
-    return render(request, "contacts/groups.html")
+    """ Group list. """
+    groups = Group.objects.all()
+    return render(request, "contacts/groups/index.html", {"groups": groups})
+
+def create_group(request):
+    """ Create a new group. """
+    group_form = GroupForm()
+    if request.method == "POST":
+        group_form = GroupForm(request.POST)
+        if group_form.is_valid():
+            group = group_form.save()
+            messages.success(request, "%s added" % group.name)
+            return redirect("view_group", group.id)
+    return render(request, "contacts/groups/create.html", {"form": group_form})
+
+def view_group(request, pk):
+    """ View a group. """
+    group = get_object_or_404(Group, pk=pk)
+    return render(request, "contacts/groups/view.html", {"group": group})
+
+def edit_group(request, pk):
+    """ Edit a group. """
+    group = get_object_or_404(Group, pk=pk)
+    group_form = GroupForm(instance=group)
+    if request.method == "POST":
+        group_form = GroupForm(request.POST, instance=group)
+        if group_form.is_valid():
+            group = group_form.save()
+            messages.success(request, "%s updated" % group.name)
+            return redirect("view_group", group.id)
+    return render(request, "contacts/groups/edit.html", {"group": group, "form": group_form})
+
+def delete_group(request, pk):
+    """ Delete a group. """
+    group = get_object_or_404(Group, pk=pk)
+    if request.method == "POST":
+        # If we post then we will delete the group
+        group.delete()
+        messages.success(request, "%s deleted" % group.name)
+        return redirect("groups")
+    return render(request, "contacts/groups/confirm_delete.html", {"group": group})

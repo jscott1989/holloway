@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="small-12 columns">
+            <ul class="breadcrumbs">
+                <li><a href="{% url "groups" %}">Groups</a></li>
+                <li class="current">Add Group</li>
+            </ul>
+
+            <form action="{% url "create_group" %}" method="POST">
+                {% csrf_token %}
+                {% include "contacts/groups/_form.html" %}
+                <button type="submit">Add</button>
+                <a href="{% url "groups" %}" class="button warning">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

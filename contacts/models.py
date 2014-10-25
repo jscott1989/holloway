@@ -22,5 +22,7 @@ class Contact(models.Model):
             yield i
     
 
-# class Group(db.Model):
-#   ...
+class Group(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    contacts = models.ManyToManyField(Contact)
