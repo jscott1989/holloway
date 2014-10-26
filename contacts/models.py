@@ -2,6 +2,7 @@ from django.db import models
 import jsonfield
 
 class Contact(models.Model):
+    owner = models.ForeignKey("auth.User")
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField()
@@ -24,6 +25,7 @@ class Contact(models.Model):
     
 
 class Group(models.Model):
+    owner = models.ForeignKey("auth.User")
     name = models.CharField(max_length=100)
     description = models.TextField()
     contacts = models.ManyToManyField(Contact, related_name="groups")

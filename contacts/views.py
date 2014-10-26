@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def index(request):
     """ Contacts list. """
-    contacts = Contact.objects.all()
+    contacts = Contact.objects.filter(owner=request.user)
     return render(request, "contacts/index.html", {"contacts": contacts})
 
 @login_required
@@ -17,7 +17,9 @@ def create_contact(request):
     if request.method == "POST":
         contact_form = ContactForm(request.POST)
         if contact_form.is_valid():
-            contact = contact_form.save()
+            contact = contact_form.save(commit=False)
+            contact.owner = request.user
+            contact.save()
             messages.success(request, "%s added" % contact.name)
             return redirect("view_contact", contact.id)
     return render(request, "contacts/create.html", {"form": contact_form})
@@ -25,13 +27,13 @@ def create_contact(request):
 @login_required
 def view_contact(request, pk):
     """ View a contact. """
-    contact = get_object_or_404(Contact, pk=pk)
+    contact = get_object_or_404(Contact, pk=pk, owner=request.user)
     return render(request, "contacts/view.html", {"contact": contact})
 
 @login_required
 def edit_contact(request, pk):
     """ Edit a contact. """
-    contact = get_object_or_404(Contact, pk=pk)
+    contact = get_object_or_404(Contact, pk=pk, owner=request.user)
     contact_form = ContactForm(instance=contact)
     if request.method == "POST":
         contact_form = ContactForm(request.POST, instance=contact)
@@ -44,7 +46,7 @@ def edit_contact(request, pk):
 @login_required
 def delete_contact(request, pk):
     """ Delete a contact. """
-    contact = get_object_or_404(Contact, pk=pk)
+    contact = get_object_or_404(Contact, pk=pk, owner=request.user)
     if request.method == "POST":
         # If we post then we will delete the user
         contact.delete()
@@ -55,7 +57,7 @@ def delete_contact(request, pk):
 @login_required
 def groups(request):
     """ Group list. """
-    groups = Group.objects.all()
+    groups = Group.objects.filter(owner=request.user)
     return render(request, "contacts/groups/index.html", {"groups": groups})
 
 @login_required
@@ -65,7 +67,9 @@ def create_group(request):
     if request.method == "POST":
         group_form = GroupForm(request.POST)
         if group_form.is_valid():
-            group = group_form.save()
+            group = group_form.save(commit=False)
+            group.owner = request.user
+            group.save()
             messages.success(request, "%s added" % group.name)
             return redirect("view_group", group.id)
     return render(request, "contacts/groups/create.html", {"form": group_form})
@@ -73,13 +77,13 @@ def create_group(request):
 @login_required
 def view_group(request, pk):
     """ View a group. """
-    group = get_object_or_404(Group, pk=pk)
+    group = get_object_or_404(Group, pk=pk, owner=request.user)
     return render(request, "contacts/groups/view.html", {"group": group})
 
 @login_required
 def edit_group(request, pk):
     """ Edit a group. """
-    group = get_object_or_404(Group, pk=pk)
+    group = get_object_or_404(Group, pk=pk, owner=request.user)
     group_form = GroupForm(instance=group)
     if request.method == "POST":
         group_form = GroupForm(request.POST, instance=group)
@@ -92,7 +96,7 @@ def edit_group(request, pk):
 @login_required
 def delete_group(request, pk):
     """ Delete a group. """
-    group = get_object_or_404(Group, pk=pk)
+    group = get_object_or_404(Group, pk=pk, owner=request.user)
     if request.method == "POST":
         # If we post then we will delete the group
         group.delete()

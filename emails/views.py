@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def email_templates(request):
     """ Email Templates list. """
-    email_templates = EmailTemplate.objects.all()
+    email_templates = EmailTemplate.objects.filter(owner=request.user)
     return render(request, "email_templates/index.html", {"email_templates": email_templates})
 
 @login_required
@@ -17,7 +17,9 @@ def create_email_template(request):
     if request.method == "POST":
         email_template_form = EmailTemplateForm(request.POST)
         if email_template_form.is_valid():
-            email_template = email_template_form.save()
+            email_template = email_template_form.save(commit=False)
+            email_template.owner = request.user
+            email_template.save()
             messages.success(request, "%s added" % email_template.subject)
             return redirect("view_email_template", email_template.id)
     return render(request, "email_templates/create.html", {"form": email_template_form})
@@ -25,13 +27,13 @@ def create_email_template(request):
 @login_required
 def view_email_template(request, pk):
     """ View an email template. """
-    email_template = get_object_or_404(EmailTemplate, pk=pk)
+    email_template = get_object_or_404(EmailTemplate, pk=pk, owner=request.user)
     return render(request, "email_templates/view.html", {"email_template": email_template})
 
 @login_required
 def edit_email_template(request, pk):
     """ Edit an email template. """
-    email_template = get_object_or_404(EmailTemplate, pk=pk)
+    email_template = get_object_or_404(EmailTemplate, pk=pk, owner=request.user)
     email_template_form = EmailTemplateForm(instance=email_template)
     if request.method == "POST":
         email_template_form = EmailTemplateForm(request.POST, instance=email_template)
@@ -44,7 +46,7 @@ def edit_email_template(request, pk):
 @login_required
 def delete_email_template(request, pk):
     """ Delete an email template. """
-    email_template = get_object_or_404(EmailTemplate, pk=pk)
+    email_template = get_object_or_404(EmailTemplate, pk=pk, owner=request.user)
     if request.method == "POST":
         # If we post then we will delete the email template
         email_template.delete()
