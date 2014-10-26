@@ -2,12 +2,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 from models import EmailTemplate
 from forms import EmailTemplateForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def email_templates(request):
     """ Email Templates list. """
     email_templates = EmailTemplate.objects.all()
     return render(request, "email_templates/index.html", {"email_templates": email_templates})
 
+@login_required
 def create_email_template(request):
     """ Create a new email template. """
     email_template_form = EmailTemplateForm()
@@ -19,11 +22,13 @@ def create_email_template(request):
             return redirect("view_email_template", email_template.id)
     return render(request, "email_templates/create.html", {"form": email_template_form})
 
+@login_required
 def view_email_template(request, pk):
     """ View an email template. """
     email_template = get_object_or_404(EmailTemplate, pk=pk)
     return render(request, "email_templates/view.html", {"email_template": email_template})
 
+@login_required
 def edit_email_template(request, pk):
     """ Edit an email template. """
     email_template = get_object_or_404(EmailTemplate, pk=pk)
@@ -36,6 +41,7 @@ def edit_email_template(request, pk):
             return redirect("view_email_template", email_template.id)
     return render(request, "email_templates/edit.html", {"email_template": email_template, "form": email_template_form})
 
+@login_required
 def delete_email_template(request, pk):
     """ Delete an email template. """
     email_template = get_object_or_404(EmailTemplate, pk=pk)

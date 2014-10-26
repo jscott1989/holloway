@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="small-12 columns">
+            <p>Welcome to Holloway...</p>
+            <p>Since this is a new install we have some configuration to do before you can begin.</p>
+            <p>Click next to continue.</p>
+
+            <a class="button" href="{% url "wizard_site" %}">Next</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

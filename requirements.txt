@@ -3,3 +3,4 @@ django-crontab==0.5.1
 django_compressor
 django-libsass==0.2
 django-jsonfield
+django-allauth==0.18.0

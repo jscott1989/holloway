@@ -20,14 +20,16 @@
                 </li>
                 <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
             </ul>
-
-            <section class="top-bar-section">
-                <ul>
-                    <li><a href="{% url "contacts" %}">Contacts</a></li>
-                    <li><a href="{% url "groups" %}">Groups</a></li>
-                    <li><a href="{% url "email_templates" %}">Email Templates</a></li>
-                </ul>
-            </section>
+            {% if user.is_authenticated %}
+                <section class="top-bar-section">
+                    <ul>
+                        <li><a href="{% url "contacts" %}">Contacts</a></li>
+                        <li><a href="{% url "groups" %}">Groups</a></li>
+                        <li><a href="{% url "email_templates" %}">Email Templates</a></li>
+                        <li><a href="{% url "account_logout" %}">Logout</a></li>
+                    </ul>
+                </section>
+            {% endif %}
         </nav>
     {% endblock %}
 <div class="container" id="content">

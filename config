@@ -1,0 +1,13 @@
+#!/bin/sh
+
+#####
+## SITE SETUP
+#####
+export SITE_DOMAIN=""
+
+#####
+## FACEBOOK SETUP
+#####
+export FACEBOOK_NAME=""
+export FACEBOOK_SECRET=""
+export FACEBOOK_CLIENT_ID=""

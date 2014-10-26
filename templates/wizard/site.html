@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="small-12 columns">
+            <p>First set the URL where this instance of Holloway will run. This will be required if you wish to allow authentication using Facebook, Twitter, etc.</p>
+            <form method="POST" action="{% url "wizard_site" %}">
+                {{form}}
+                <button type="submit">Next</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

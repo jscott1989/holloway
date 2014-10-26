@@ -2,12 +2,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 from models import Contact, Group
 from django.contrib import messages
 from forms import ContactForm, GroupForm
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def index(request):
     """ Contacts list. """
     contacts = Contact.objects.all()
     return render(request, "contacts/index.html", {"contacts": contacts})
 
+@login_required
 def create_contact(request):
     """ Create a new contact. """
     contact_form = ContactForm()
@@ -19,11 +22,13 @@ def create_contact(request):
             return redirect("view_contact", contact.id)
     return render(request, "contacts/create.html", {"form": contact_form})
 
+@login_required
 def view_contact(request, pk):
     """ View a contact. """
     contact = get_object_or_404(Contact, pk=pk)
     return render(request, "contacts/view.html", {"contact": contact})
 
+@login_required
 def edit_contact(request, pk):
     """ Edit a contact. """
     contact = get_object_or_404(Contact, pk=pk)
@@ -36,6 +41,7 @@ def edit_contact(request, pk):
             return redirect("view_contact", contact.id)
     return render(request, "contacts/edit.html", {"contact": contact, "form": contact_form})
 
+@login_required
 def delete_contact(request, pk):
     """ Delete a contact. """
     contact = get_object_or_404(Contact, pk=pk)
@@ -46,12 +52,13 @@ def delete_contact(request, pk):
         return redirect("contacts")
     return render(request, "contacts/confirm_delete.html", {"contact": contact})
 
-
+@login_required
 def groups(request):
     """ Group list. """
     groups = Group.objects.all()
     return render(request, "contacts/groups/index.html", {"groups": groups})
 
+@login_required
 def create_group(request):
     """ Create a new group. """
     group_form = GroupForm()
@@ -63,11 +70,13 @@ def create_group(request):
             return redirect("view_group", group.id)
     return render(request, "contacts/groups/create.html", {"form": group_form})
 
+@login_required
 def view_group(request, pk):
     """ View a group. """
     group = get_object_or_404(Group, pk=pk)
     return render(request, "contacts/groups/view.html", {"group": group})
 
+@login_required
 def edit_group(request, pk):
     """ Edit a group. """
     group = get_object_or_404(Group, pk=pk)
@@ -80,6 +89,7 @@ def edit_group(request, pk):
             return redirect("view_group", group.id)
     return render(request, "contacts/groups/edit.html", {"group": group, "form": group_form})
 
+@login_required
 def delete_group(request, pk):
     """ Delete a group. """
     group = get_object_or_404(Group, pk=pk)

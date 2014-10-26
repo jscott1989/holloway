@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="small-12 columns">
+            <p>Create your first account. This account will be able to use normal Holloway functionality, as well as administer the instance: create other administrators, delete accounts, change settings, etc.</p>
+            <form method="POST" action="{% url "wizard_admin" %}">
+                {% csrf_token %}
+                {{form}}
+                <button type="submit">Finish</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
