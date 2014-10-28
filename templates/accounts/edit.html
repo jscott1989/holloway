@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="small-12 columns">
+            <ul class="breadcrumbs">
+                <li><a href="{% url "accounts" %}">Accounts</a></li>
+                <li><a href="{% url "view_account" account.id %}">{{account.email_address}}</a></li>
+                <li class="current">Edit</li>
+            </ul>
+
+            <form action="{% url "edit_account" account.id %}" method="POST">
+                {% csrf_token %}
+                {% include "accounts/_form.html" %}
+                <button type="submit">Update</button>
+                <a href="{% url "view_account" account.id %}" class="button warning">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

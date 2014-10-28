@@ -47,8 +47,7 @@ INSTALLED_APPS = (
 
     'holloway',
     'contacts',
-    'emails',
-    'settings'
+    'emails'
 )
 
 MIDDLEWARE_CLASSES = (

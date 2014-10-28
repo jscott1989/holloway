@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="small-12 columns">
+            <ul class="breadcrumbs">
+                <li><a href="{% url "accounts" %}">Accounts</a></li>
+                <li class="current">Add Account</li>
+            </ul>
+
+            <form action="{% url "create_account" %}" method="POST">
+                {% csrf_token %}
+                {% include "accounts/_form.html" %}
+                <button type="submit">Add</button>
+                <a href="{% url "accounts" %}" class="button warning">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

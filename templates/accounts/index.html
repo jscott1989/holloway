@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="small-12 columns">
+            <ul class="breadcrumbs">
+                <li class="current">Accounts</li>
+            </ul>
+
+            {% if accounts.count == 0 %}
+                <div class="panel callout radius">
+                    <h5>You don't have any accounts yet</h5>
+                </div>
+            {% else %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Email Address</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for account in accounts %}
+                            <tr>
+                                <td><a href="{% url "view_account" account.id %}">{{account.email_address}}</a></td>
+                                <td>SMTP</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+
+            <a class="button" href="{% url "create_account" %}">Add Account</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

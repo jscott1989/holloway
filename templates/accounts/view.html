@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="small-12 columns">
+            <ul class="breadcrumbs">
+                <li><a href="{% url "accounts" %}">Accounts</a></li>
+                <li class="current">{{account.email_address}}</li>
+            </ul>
+
+            {{account.email_address}}
+
+            {{account.smtp_host}}
+
+            <a class="button" href="{% url "edit_account" account.id %}">Edit</a>
+            <a class="button warning" href="{% url "delete_account" account.id %}">Delete</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from models import EmailTemplate
+from models import EmailTemplate, SMTPAccount
 from contacts.models import Contact, Group
 
 class EmailTemplateForm(ModelForm):
@@ -8,12 +8,22 @@ class EmailTemplateForm(ModelForm):
         model = EmailTemplate
         fields = ("subject", "html", "text", "required_fields")
 
+class AccountForm(ModelForm):
+    class Meta:
+        model = SMTPAccount
+        fields = ("email_address", "smtp_host", "smtp_port", "smtp_username", "smtp_password")
+
 class EmailForm(forms.Form):
     to_addresses = forms.CharField(label="To")
-    from_address = forms.EmailField(label="From")
+    from_account = forms.ModelChoiceField(None, label="From")
     subject = forms.CharField(max_length=100)
     html = forms.CharField()
     text = forms.CharField()
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user")
+        super(EmailForm, self).__init__(*args, **kwargs)
+        self.fields['from_account'].queryset = user.accounts
 
     @property
     def contacts(self):

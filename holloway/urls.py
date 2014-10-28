@@ -5,7 +5,6 @@ urlpatterns = patterns('',
     url(r'^contacts/', include('contacts.urls')),
     url(r'^emails/', include('emails.urls')),
     url(r'^wizard/', include('wizard.urls')),
-    url(r'^settings/', include('settings.urls')),
 
     (r'^accounts/', include('allauth.urls')),
 )
