@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from models import EmailTemplate
-from forms import EmailTemplateForm
+from forms import EmailTemplateForm, EmailForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from emails import send_templated_email
 
 @login_required
 def email_templates(request):
@@ -53,3 +54,15 @@ def delete_email_template(request, pk):
         messages.success(request, "%s deleted" % email_template.subject)
         return redirect("email_templates")
     return render(request, "email_templates/confirm_delete.html", {"email_template": email_template})
+
+@login_required
+def send_email(request):
+    """ Send a new email. """
+    email_form = EmailForm()
+    if request.method == "POST":
+        email_form = EmailForm(request.POST)
+        if email_form.is_valid():
+            send_templated_email(email_form.contacts, email_form.cleaned_data['from_address'], email_form.cleaned_data['subject'], email_form.cleaned_data['html'], email_form.cleaned_data['text'])
+            messages.success(request, "%s sent" % email_form.cleaned_data['subject'])
+            # return redirect("index")
+    return render(request, "emails/send.html", {"form": email_form})

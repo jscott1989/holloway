@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="small-12 columns">
+            <ul class="breadcrumbs">
+                <li class="current">Send Email</li>
+            </ul>
+
+            <form action="{% url "send_email" %}" method="POST">
+                {% csrf_token %}
+                {{form}}
+                <button type="submit">Send</button>
+                <a href="{% url "index" %}" class="button warning">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
