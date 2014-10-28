@@ -62,7 +62,7 @@ def send_email(request):
     if request.method == "POST":
         email_form = EmailForm(request.POST)
         if email_form.is_valid():
-            send_templated_email(email_form.contacts, email_form.cleaned_data['from_address'], email_form.cleaned_data['subject'], email_form.cleaned_data['html'], email_form.cleaned_data['text'])
+            send_templated_email(request.user, email_form.contacts, email_form.cleaned_data['from_address'], email_form.cleaned_data['subject'], email_form.cleaned_data['html'], email_form.cleaned_data['text'])
             messages.success(request, "%s sent" % email_form.cleaned_data['subject'])
             # return redirect("index")
     return render(request, "emails/send.html", {"form": email_form})

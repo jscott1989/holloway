@@ -12,7 +12,7 @@ def send_templated_email(user, contacts, from_address, subject, html, text):
         send_email(user, contact, from_address, r_subject, r_html, r_text)
 
 def send_email(user, contact, from_address, subject, html, text):
-    msg = MIMEMultipart()
+    msg = MIMEMultipart("alternative")
     msg['Subject'] = subject
     msg['From'] = from_address
     msg['To'] = contact.email
@@ -26,6 +26,7 @@ def send_email(user, contact, from_address, subject, html, text):
     s = smtplib.SMTP("%s:%s" % (user.settings.smtp_host, user.settings.smtp_port))
     if user.settings.smtp_username:
         s.login(user.settings.smtp_username, user.settings.smtp_password)
+
     s.sendmail(from_address, contact.email, msg.as_string())
     s.quit()
 
