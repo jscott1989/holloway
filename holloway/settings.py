@@ -105,6 +105,7 @@ STATICFILES_DIRS = (
 
 COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'django_libsass.SassCompiler'),
+    ('text/coffeescript', 'coffee --compile --stdio'),
 )
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'compiled_static')

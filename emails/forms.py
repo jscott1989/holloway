@@ -17,8 +17,9 @@ class EmailForm(forms.Form):
     to_addresses = forms.CharField(label="To")
     from_account = forms.ModelChoiceField(None, label="From")
     subject = forms.CharField(max_length=100)
-    html = forms.CharField()
-    text = forms.CharField()
+    html = forms.CharField(widget=forms.Textarea)
+    text = forms.CharField(widget=forms.Textarea)
+    required_fields = forms.CharField(widget=forms.Textarea, initial="[]")
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user")
