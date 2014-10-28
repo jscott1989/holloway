@@ -4,3 +4,5 @@ django_compressor
 django-libsass==0.2
 django-jsonfield
 django-allauth==0.18.0
+python-keyczar==0.71c
+django-encrypted-fields==1.1.1

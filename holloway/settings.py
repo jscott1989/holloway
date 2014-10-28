@@ -150,3 +150,5 @@ if DEBUG:
 else:
     # TODO: Implement real email handling
     pass
+
+ENCRYPTED_FIELDS_KEYDIR = os.path.join(BASE_DIR, 'keyset')
