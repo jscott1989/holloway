@@ -8,6 +8,8 @@ class Contact(models.Model):
     email = models.EmailField()
     fields = jsonfield.JSONField()
 
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'email']
+
     @property
     def name(self):
         return "%s %s" % (self.first_name, self.last_name)

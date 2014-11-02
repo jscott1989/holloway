@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from models import Contact, Group
 from django.contrib import messages
-from forms import ContactForm, GroupForm
+from forms import ContactForm, GroupForm, ImportUploadForm
 from django.contrib.auth.decorators import login_required
+import csv
 
 @login_required
 def index(request):
@@ -103,3 +104,52 @@ def delete_group(request, pk):
         messages.success(request, "%s deleted" % group.name)
         return redirect("groups")
     return render(request, "contacts/groups/confirm_delete.html", {"group": group})
+
+@login_required
+def import_contacts(request):
+    """ Import contacts from CSV. """
+    import_upload_form = ImportUploadForm()
+    errors = []
+    if request.method == "POST":
+        import_upload_form = ImportUploadForm(request.POST, request.FILES)
+        if import_upload_form.is_valid():
+            data = csv.DictReader(request.FILES['file'].read().splitlines())
+            datalist = []
+            for i, row in enumerate(data):
+                datalist.append(row)
+                for r in Contact.REQUIRED_FIELDS:
+                    if row.get(r, "").strip() == "":
+                        errors.append("Error on line " + str(i + 1) + ": missing required field " + r)
+
+            if len(errors) == 0:
+                request.session['imported_contacts'] = datalist
+                return redirect("import_contacts_confirm")
+
+    return render(request, "contacts/import/upload.html", {"form": import_upload_form, "errors": errors})
+
+@login_required
+def import_contacts_confirm(request):
+    """ Confirm import of contacts from CSV. """
+    if request.method == "POST":
+        for contact_info in request.session['imported_contacts']:
+            contact, created = Contact.objects.get_or_create(email=contact_info['email'], owner=request.user)
+
+            for attr in Contact.REQUIRED_FIELDS:
+                setattr(contact, attr, contact_info[attr])
+
+            fields = contact.fields
+            for attr in [c for c in contact_info.keys() if not c in Contact.REQUIRED_FIELDS]:
+                contact.fields[attr] = contact_info[attr]
+
+            contact.save()
+
+        messages.success(request, "%s contacts imported" % len(request.session['imported_contacts']))
+        del request.session['imported_contacts']
+        return redirect("contacts")
+
+    contacts = request.session['imported_contacts']
+    keys = set(reduce(lambda x, y: x + y, [c.keys() for c in contacts]))
+
+    keys = sorted(keys, key=lambda x : 1 if x == "email" else 2 if x == "first_name" else 3 if x == "last_name" else 4)
+
+    return render(request, "contacts/import/confirm.html", {"keys": keys, "contacts": contacts})

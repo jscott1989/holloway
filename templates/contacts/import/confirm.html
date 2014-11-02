@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% load dict %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="small-12 columns">
+            <ul class="breadcrumbs">
+                <li><a href="{% url "contacts" %}">Contacts</a></li>
+                <li><a href="{% url "import_contacts" %}">Import Contacts</a></li>
+                <li class="current">Confirm</li>
+            </ul>
+
+            <p>Confirm that the information below is what you want to import into the database. This will override any existing information for the given email address.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        {% for key in keys %}
+                            <th>{{key}}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contact in contacts %}
+                        <tr>
+                            {% for key in keys %}
+                                <td>{{contact|keyvalue:key}}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <form method="POST" action="{% url "import_contacts_confirm" %}">
+                {% csrf_token %}
+                <button type="submit">Confirm</button>
+                <a class="button warning" href="{% url "import_contacts" %}">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

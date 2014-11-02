@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="small-12 columns">
+            <ul class="breadcrumbs">
+                <li><a href="{% url "contacts" %}">Contacts</a></li>
+                <li class="current">Import Contacts</li>
+            </ul>
+
+            {% if errors|length > 0 %}
+                <div class="panel">
+                    <p>There was a problem with the CSV file you uploaded. Fix the file and upload again.</p>
+                    <ul>
+                        {% for error in errors %}
+                            <li>{{error}}
+                        {% endfor %}
+                    </ul>
+            </div>
+            {% endif %}
+
+            <form action="{% url "import_contacts" %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form}}
+                <button type="submit">Upload</button>
+                <a href="{% url "contacts" %}" class="button warning">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
