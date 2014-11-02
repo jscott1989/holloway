@@ -119,6 +119,7 @@ def import_contacts(request):
                 datalist.append(row)
                 for r in Contact.REQUIRED_FIELDS:
                     if row.get(r, "").strip() == "":
+                        # Required field missing - though we might already have this field if the contact already exists
                         errors.append("Error on line " + str(i + 1) + ": missing required field " + r)
 
             if len(errors) == 0:

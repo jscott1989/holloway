@@ -46,7 +46,7 @@ INSTALLED_APPS = (
     'compressor',
 
     'holloway',
-    'contacts',
+    # 'contacts',
     'emails'
 )
 
