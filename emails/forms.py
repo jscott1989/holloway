@@ -2,6 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from models import EmailTemplate, SMTPAccount
 from contacts.models import Contact, Group
+from holloway.forms import ListField
 
 class EmailTemplateForm(ModelForm):
     class Meta:
@@ -18,8 +19,8 @@ class EmailForm(forms.Form):
     from_account = forms.ModelChoiceField(None, label="From")
     subject = forms.CharField(max_length=100)
     html = forms.CharField(widget=forms.Textarea)
-    text = forms.CharField(widget=forms.Textarea)
-    required_fields = forms.CharField(widget=forms.Textarea, initial="[]")
+    text = forms.CharField(widget=forms.HiddenInput())
+    required_fields = ListField()
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop("user")

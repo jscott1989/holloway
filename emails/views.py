@@ -59,9 +59,11 @@ def delete_email_template(request, pk):
 def send_email(request):
     """ Send a new email. """
     email_form = EmailForm(user=request.user)
+
     if request.method == "POST":
         email_form = EmailForm(request.POST,user=request.user)
         if email_form.is_valid():
+            print email_form.cleaned_data['required_fields']
             from_account = email_form.cleaned_data['from_account']
 
             send_templated_email(request.user, email_form.contacts, from_account, email_form.cleaned_data['subject'], email_form.cleaned_data['html'], email_form.cleaned_data['text'])
